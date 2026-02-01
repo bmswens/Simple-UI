@@ -1,0 +1,99 @@
+name: Main CI/CD
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  CI: 'true'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  lint:
+    name: Lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Restore Node Modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          key: ${{ hashFiles('package-lock.json') }}
+          path: node_modules
+
+      - name: Install
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Cache Node Modules
+        id: cache-npm-save
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          key: ${{ hashFiles('package-lock.json') }}
+          path: node_modules
+
+      - name: Lint
+        run: npm run lint
+
+  test:
+    name: Test
+    needs: lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Restore Node Modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          key: ${{ hashFiles('package-lock.json') }}
+          path: node_modules
+
+      - name: Install
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Cache Node Modules
+        id: cache-npm-save
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          key: ${{ hashFiles('package-lock.json') }}
+          path: node_modules
+
+      - name: Test
+        run: npm run test -- --coverage
+
+  build:
+    name: Build
+    needs: ['lint', 'test']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Log In
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Metadata
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and Push
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

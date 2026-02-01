@@ -1,45 +1,31 @@
-import { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+// React 
+import React from 'react'
 
-const App = () => {
-  const [count, setCount] = useState(0);
+// MUI
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import { BrowserRouter } from 'react-router'
+import Navigation from './nav/Navigation'
+import Content from './content/Content'
+
+function App() {
+
+  const theme = createTheme({
+    palette: {
+      mode: "dark"
+    }
+  })
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>Vite + React</h1>
-        <p>
-          <button onClick={() => setCount(count => count + 1)}>
-            count is {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://react.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  );
-};
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Navigation />
+        <Content />
+      </ThemeProvider>
+    </BrowserRouter>
+  )
 
-export default App;
+}
+
+export default App
