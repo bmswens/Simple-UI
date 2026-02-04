@@ -26,13 +26,13 @@ function SideNav(props) {
                 sx={{width}}
             >
                 <NavItem
-                    to="/"
+                    to="./"
                     text="Home"
                     onClick={close}
                     icon={<HomeIcon />}
                 />
                 <NavItem
-                    to="/content"
+                    to="./content"
                     text="Content"
                     onClick={close}
                     icon={<TableChartIcon />}
