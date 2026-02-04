@@ -29,13 +29,13 @@ function SideNav(props) {
                 sx={{width}}
             >
                 <NavItem
-                    to={import.meta.env.BASE_URL}
+                    to="./"
                     text="Home"
                     onClick={close}
                     icon={<HomeIcon />}
                 />
                 <NavItem
-                    to={`${import.meta.env.BASE_URL}/content`}
+                    to={`./content`}
                     text="Content"
                     onClick={close}
                     icon={<TableChartIcon />}
