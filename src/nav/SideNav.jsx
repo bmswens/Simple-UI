@@ -12,6 +12,9 @@ import PropTypes from 'prop-types'
 // custom
 import NavItem from './NavItem'
 
+// Relative pathing
+import.meta.env.BASE_URL
+
 function SideNav(props) {
 
     const {open, close} = props
@@ -26,13 +29,13 @@ function SideNav(props) {
                 sx={{width}}
             >
                 <NavItem
-                    to="./"
+                    to={import.meta.env.BASE_URL}
                     text="Home"
                     onClick={close}
                     icon={<HomeIcon />}
                 />
                 <NavItem
-                    to="./content"
+                    to={`${import.meta.env.BASE_URL}/content`}
                     text="Content"
                     onClick={close}
                     icon={<TableChartIcon />}
