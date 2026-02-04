@@ -2,6 +2,7 @@
 	"name": "simple-ui",
 	"version": "0.1.0",
 	"type": "module",
+	"homepage": ".",
 	"scripts": {
 		"start": "vite --port 3000 --open",
 		"dev": "vite --port 3000 --open",
