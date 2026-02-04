@@ -16,6 +16,6 @@ describe('<Navigation>', function() {
         await user.click(button)
         let contentButton = screen.getByText(/Content/)
         await user.click(contentButton)
-        expect(window.location).toEqual("/content")
+        expect(window.location.pathname).toEqual("/content")
     })
 })
