@@ -134,6 +134,9 @@ jobs:
 
   deploy-pages:
     name: Deploy Github Pages
+    permissions:
+      id-token: write
+      pages: write
     environment:
       name: github-pages
       url: ${{ steps.upload-pages.outputs.page_url }}
